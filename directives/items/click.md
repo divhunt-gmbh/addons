@@ -1,61 +1,78 @@
-# dh-show Directive Documentation
+# dh-click Directive Documentation
 
 ## Overview
 
-The `dh-show` directive is a conditional display mechanism that controls the visibility of HTML elements based on the evaluation of a JavaScript expression. When used, it either shows or hides elements by modifying their CSS `display` property.
+The `dh-click` directive adds click event handling to elements, allowing you to execute JavaScript expressions or call functions when a user clicks on the element. This provides an easy way to implement interactive behavior without writing separate event listeners.
 
 ## Syntax
 
 ```html
-<element dh-show="expression"></element>
+<element dh-click="expression"></element>
 ```
 
 Where:
-- `expression` is a JavaScript expression that evaluates to either truthy or falsy
+- `expression` is a JavaScript expression that will be evaluated when the element is clicked
 
 ## Behavior
 
-- When the expression evaluates to `true` (truthy), the element will be displayed normally
-- When the expression evaluates to `false` (falsy), the element will be hidden (display: none)
-- The directive is processed with an order priority of 500
-- After execution, the `dh-show` attribute is removed from the element
+- Adds a click event listener to the target element
+- When clicked, evaluates the provided JavaScript expression within the current data context
+- If the expression returns a function, that function is called with the click event as an argument
+- After setting up the event listener, the `dh-click` attribute is removed from the element
+- The event listener remains attached even after the attribute is removed
 
 ## Examples
 
-### Basic Usage
+### Basic Click Handler
 
 ```html
-<!-- Button will only show if user is logged in -->
-<button dh-show="isLoggedIn">Profile Settings</button>
+<button dh-click="count++">Increment Counter</button>
 ```
 
-### Using with Data Properties
+### Calling Methods
 
 ```html
-<!-- Shows element only when items array has elements -->
-<div dh-show="items.length > 0">
-  Items are available
-</div>
+<button dh-click="saveData()">Save</button>
 ```
 
-### Combining with Other Expressions
+### Passing the Event Object
 
 ```html
-<!-- Displays message based on multiple conditions -->
-<p dh-show="user.age >= 18 && user.hasPermission">
-  You have access to this content
-</p>
+<button dh-click="handleClick">Process Click</button>
+```
+
+Where `handleClick` is a function that will receive the click event:
+
+```javascript
+function handleClick(event) {
+  // Access event properties
+  console.log('Clicked at:', event.clientX, event.clientY);
+  // Prevent default behavior if needed
+  event.preventDefault();
+}
+```
+
+### Using with Expressions
+
+```html
+<div dh-click="isActive = !isActive">Toggle Active State</div>
+```
+
+### Conditional Actions
+
+```html
+<button dh-click="isValid ? submitForm() : showError()">Submit</button>
 ```
 
 ## Error Handling
 
 If the expression is invalid or cannot be evaluated, the directive will throw an error with the message:
 ```
-Invalid dh-show expression: [your-expression]
+Invalid dh-click expression: [your-expression]
 ```
 
-## Processing Order
+## Implementation Details
 
-With an order value of 500, `dh-show` executes after structural directives like `dh-for` (order 100) but at the same priority as `dh-if`.
-
-This order ensures that elements are first created/repeated before their visibility is determined.
+- The directive evaluates expressions using JavaScript's `Function` constructor with a `with` statement to provide access to the data context
+- The event listener is added to the element before the attribute is removed, ensuring the click functionality persists
+- No default order priority is set, so it runs at the framework's default priority
