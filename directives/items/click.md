@@ -41,15 +41,18 @@ Where:
 <button dh-click="handleClick">Process Click</button>
 ```
 
-Where `handleClick` is a function that will receive the click event:
+Where `handleClick` is a function in your data context:
 
 ```javascript
-function handleClick(event) {
-  // Access event properties
-  console.log('Clicked at:', event.clientX, event.clientY);
-  // Prevent default behavior if needed
-  event.preventDefault();
-}
+// In your data object
+const data = {
+  handleClick: function(event) {
+    // Access event properties
+    console.log('Clicked at:', event.clientX, event.clientY);
+    // Prevent default behavior if needed
+    event.preventDefault();
+  }
+};
 ```
 
 ### Using with Expressions
@@ -63,6 +66,14 @@ function handleClick(event) {
 ```html
 <button dh-click="isValid ? submitForm() : showError()">Submit</button>
 ```
+
+## Accessing Data Context
+
+All expressions in `dh-click` are evaluated within the context of your data object. This means:
+
+1. All functions must be defined on your data object
+2. All variables must be properties of your data object
+3. The expression has direct access to these properties without needing to use `data.` prefix because of the `with(data)` statement
 
 ## Error Handling
 
