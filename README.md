@@ -1,4 +1,4 @@
-# Divhunt Framework Addons
+# Divhunt Addons
 
 This directory contains the core directives (addons) for the Divhunt Framework. These directives provide dynamic behavior and DOM manipulation capabilities for your web applications.
 
