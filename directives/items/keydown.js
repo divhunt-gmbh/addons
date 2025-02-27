@@ -1,11 +1,12 @@
 directives.OnReady(() =>
 {
     directives.ItemAdd({
-        id: 'dh-keypress',
-        attribute: 'dh-keypress',
+        id: 'dh-keydown',
+        attribute: 'dh-keydown',
+        tags: ['input', 'textarea'],
         code: (addon, element, node, data) =>
         {
-            const attribute = node.getAttribute('dh-keypress');
+            const attribute = node.getAttribute('dh-keydown');
             const handle = (event) =>
             {
                 try
@@ -19,12 +20,12 @@ directives.OnReady(() =>
                 }
                 catch(error)
                 {
-                    throw('Invalid dh-keypress expression: ' + attribute);
+                    throw('Invalid dh-keydown expression: ' + attribute);
                 }
             };
 
-            node.addEventListener('keydown', handle)
-            node.removeAttribute('dh-keypress');
+            node.addEventListener('keydown', handle);
+            node.removeAttribute('dh-keydown');
         }
     });
 });
