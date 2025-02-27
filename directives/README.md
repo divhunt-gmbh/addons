@@ -138,6 +138,42 @@ Most directives evaluate JavaScript expressions within the context of a data obj
 </div>
 ```
 
+## Creating New Directives
+
+Adding a new directive is straightforward:
+
+```javascript
+directives.OnReady(() =>
+{
+    directives.ItemAdd({
+        id: 'dh-color',
+        attribute: 'dh-color',
+        order: 300,
+        tags: ['div', 'span'],
+        code: (addon, element, node, data) =>
+        {
+            // Get attribute value
+            const attribute = node.getAttribute('dh-color');
+            
+            try
+            {
+                // Evaluate expression with data context
+                const color = new Function('data', 'with(data) { return ' + attribute + '; }')(data);
+                
+                // Apply the directive's effect
+                node.style.color = color;
+                
+                // Clean up
+                node.removeAttribute('dh-color');
+            }
+            catch(error)
+            {
+                throw('Invalid dh-color expression: ' + attribute);
+            }
+        }
+    });
+});
+```
 ## Technical Details
 
 - Directives are registered using the Divhunt addon system
