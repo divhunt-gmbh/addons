@@ -28,30 +28,3 @@ directives.OnReady(() =>
         }
     });
 });
-
-test2.RenderCreate('test', function (addon, data)
-{
-    data.name = 'Dejan Tomic';
-    data.showH1 = true;
-
-    data.test2 = (event) =>
-    {
-        console.log('TEST TEST');
-    }
-
-    data.test = (event) =>
-    {
-        data.showH1 = !!!data.showH1;
-    };
-
-    // setTimeout(() =>
-    // {
-    //     data.showH1 = false;
-    // }, 1500);
-
-    return `
-        <button dh-click="test">Test</button>
-        <h1 dh-if="showH1">Test</h1>
-        <input type="text" dh-input="test2()">
-    `;
-});
