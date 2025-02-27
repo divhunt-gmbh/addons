@@ -1,91 +1,150 @@
-# Directive Items Documentation
+# Divhunt Directives Addon
 
-This documentation focuses on the **Directive Items** provided by the module and explains how to add new items. Directive items are the core building blocks used to extend the DivHunt framework with custom behaviors by associating specific HTML attributes with processing code.
+The directives addon provides a collection of HTML attributes that give you declarative control over DOM elements in the Divhunt framework. These directives allow you to manipulate the DOM, add interactivity, handle events, and conditionally render elements directly in your HTML without writing separate JavaScript functions.
 
----
+## Installation
 
-## Overview
+The directives addon is part of the Divhunt Framework. It's registered and initialized automatically when the framework loads.
 
-The module registers a set of directive items using the `directives.ItemAdd` method. Each item is associated with a unique attribute and processing code that runs when an element with that attribute is found in the DOM. These items allow you to:
+## Available Directives
 
-- **Conditionally render elements:** e.g., `dh-show`, `dh-if`
-- **Handle events:** e.g., `dh-click`, `dh-input`
-- **Iterate over data arrays:** e.g., `dh-for`
-- **Interpolate text:** e.g., `dh-text`
-- **Inject static content:** e.g., `icon`
+The following directives are available in the addon:
 
-The directives are registered after the module is initialized via a `directives.OnReady` callback.
+### dh-click
 
----
+Adds click event handling to any element.
 
-## Directive Item Structure
+```html
+<button dh-click="handleClick">Click me</button>
+```
 
-Each directive item is an object with several key properties that define its behavior. Here are the main properties used:
+[Learn more about dh-click](./items/click.md)
 
-- **`id`**  
-  A unique identifier for the directive item.
+### dh-for
 
-- **`attribute`**  
-  The HTML attribute that triggers this directive on an element (e.g., `dh-show`, `dh-click`).
+Allows you to loop through arrays and render elements for each item.
 
-- **`types`** (optional)  
-  An array of node types that this directive applies to (for example, `[Node.TEXT_NODE]` for text interpolation).
+```html
+<div dh-for="item in items">
+    {{ item.v.name }}
+</div>
+```
 
-- **`tags`** (optional)  
-  A list of HTML tag names to which the directive is restricted.
+[Learn more about dh-for](./items/for.md)
 
-- **`code`**  
-  The function that is executed when the directive is processed. This function receives the following parameters:
-    - `addon`: The addon object containing helper functions.
-    - `element`: The current DOM element.
-    - `node`: The node on which the directive is defined.
-    - `data`: The current data context.
+### dh-if
 
-- **`order`** (optional)  
-  A numerical value that determines the directive's processing priority. Lower numbers are processed first.
+Conditionally renders elements based on an expression.
 
-- **`before` / `after`** (optional)  
-  These properties can be used to fine-tune the execution order relative to other directives.
+```html
+<div dh-if="isVisible">
+    This element will only be displayed if isVisible is true
+</div>
+```
 
----
+[Learn more about dh-if](./items/if.md)
 
-## How to Add a New Directive Item
+### dh-input
 
-To add a new directive item to the module, follow these steps:
+Binds input events to handler functions.
 
-1. **Wait for the Directives Module to Be Ready**  
-   Ensure that the directives system is fully initialized by wrapping your registration code inside a `directives.OnReady()` callback.
+```html
+<input dh-input="handleInput">
+```
 
-2. **Define the Directive Item**  
-   Create an object with the required properties (`id`, `attribute`, `code`, etc.) that describes your directive.
+### dh-keydown
 
-3. **Register the Item Using `ItemAdd`**  
-   Call the `directives.ItemAdd()` method with your item object. This method integrates your new directive into the processing pipeline.
+Handles keydown events on input and textarea elements.
 
-### Example: Adding a New `dh-example` Directive
+```html
+<input dh-keydown="handleKeyDown">
+```
 
-Below is an example of how to create and add a new directive item called `dh-example`:
+### dh-keyup
 
-```javascript
-directives.OnReady(() => {
-    directives.ItemAdd({
-        id: 'dh-example',
-        attribute: 'dh-example',
-        order: 250,  // Optional: determines when to process relative to others
-        code: (addon, element, node, data) => {
-            // Retrieve the value of the 'dh-example' attribute
-            const expression = node.getAttribute('dh-example');
-            
-            // Evaluate the expression in the current data context
-            try {
-                const result = new Function('data', 'with(data) { return ' + expression + '; }')(data);
-                // Perform a custom operation based on the result
-                node.innerHTML = 'Result: ' + result;
-            } catch (error) {
-                throw ('Invalid dh-example expression: ' + expression);
-            }
-            // Remove the attribute after processing to avoid reprocessing
-            node.removeAttribute('dh-example');
-        }
-    });
-});
+Handles keyup events on input and textarea elements.
+
+```html
+<input dh-keyup="handleKeyUp">
+```
+
+[Learn more about dh-keyup](./items/keyup.md)
+
+### dh-show
+
+Shows or hides elements based on an expression, unlike dh-if which removes elements from the DOM.
+
+```html
+<div dh-show="isVisible">
+    This element will be hidden (display: none) if isVisible is false
+</div>
+```
+
+[Learn more about dh-show](./items/show.md)
+
+### dh-text
+
+Renders dynamic text content using double curly braces.
+
+```html
+<div>Hello, {{ username }}</div>
+```
+
+[Learn more about dh-text](./items/text.md)
+
+### icon
+
+A custom directive that inserts icon content.
+
+```html
+<span icon></span>
+```
+
+## How Directives Work
+
+The directives addon processes HTML elements based on specific attributes or node types. Each directive has:
+
+- An ID for identification
+- An attribute name it responds to
+- Optional type or tag restrictions
+- A priority order for processing
+- A code function that performs the DOM manipulation
+
+Directives are processed in order of their specified priority, allowing more complex behaviors to be built from simpler ones.
+
+## Expression Evaluation
+
+Most directives evaluate JavaScript expressions within the context of a data object, allowing you to access data properties directly in your HTML. Expressions are evaluated using JavaScript's Function constructor with a data context.
+
+## Example Usage
+
+```html
+<div>
+    <h1>{{ title }}</h1>
+
+    <button dh-click="count++">Increment</button>
+
+    <p>Count: {{ count }}</p>
+
+    <div dh-if="count > 5">
+        Count is greater than 5!
+    </div>
+
+    <ul>
+        <li dh-for="item in items">
+            {{ item.v.name }}
+        </li>
+    </ul>
+</div>
+```
+
+## Technical Details
+
+- Directives are registered using the Divhunt addon system
+- Processing order can be customized using the `order` property
+- Some directives can break the processing chain with `{type: 'break'}`
+- Error handling is built in to provide meaningful error messages
+
+## Contributing
+
+To add new directives, use the addon's ItemAdd method with the appropriate configuration.
