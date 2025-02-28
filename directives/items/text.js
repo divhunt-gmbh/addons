@@ -4,7 +4,8 @@ directives.OnReady(() =>
         id: 'dh-text',
         order: 1000,
         types: [Node.TEXT_NODE],
-        code: (addon, element, node, data) =>
+        trigger: 'post',
+        code: function(directive, addon, element, node, data, status)
         {
             const regex = /\{\{\s*([^}]+)\s*\}\}/g;
 

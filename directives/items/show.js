@@ -2,9 +2,8 @@ directives.OnReady(() =>
 {
     directives.ItemAdd({
         id: 'dh-show',
-        order: 500,
         attribute: 'dh-show',
-        code: (addon, element, node, data) =>
+        code: function(directive, addon, element, node, data, status)
         {
             try
             {

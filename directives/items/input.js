@@ -3,7 +3,8 @@ directives.OnReady(() => {
         id: 'dh-input',
         attribute: 'dh-input',
         // tags: ['input', 'textarea'],
-        code: (addon, element, node, data) => {
+        code: function(directive, addon, element, node, data, status)
+        {
             const handle = (event) => {
                 const attribute = node.getAttribute('dh-input');
 

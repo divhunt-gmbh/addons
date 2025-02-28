@@ -4,7 +4,7 @@ directives.OnReady(() =>
         id: 'dh-keydown',
         attribute: 'dh-keydown',
         tags: ['input', 'textarea'],
-        code: (addon, element, node, data) =>
+        code: function(directive, addon, element, node, data, status)
         {
             const attribute = node.getAttribute('dh-keydown');
             const handle = (event) =>

@@ -2,9 +2,8 @@ directives.OnReady(() =>
 {
     directives.ItemAdd({
         id: 'dh-for',
-        before: 100,
         attribute: 'dh-for',
-        code: (addon, element, node, data) =>
+        code: function(directive, addon, element, node, data, status)
         {
             const expression = node.getAttribute('dh-for');
             const parts = expression.split('in');
@@ -47,8 +46,7 @@ directives.OnReady(() =>
             delete data[expVar];
 
             node.remove();
-
-            return {type: 'break'};
+            status.break = true;
         }
     });
 });

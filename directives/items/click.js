@@ -3,7 +3,7 @@ directives.OnReady(() =>
     directives.ItemAdd({
         id: 'dh-click',
         attribute: 'dh-click',
-        code: function(addon, element, node, data)
+        code: function(directive, addon, element, node, data, status)
         {
             const attribute = node.getAttribute('dh-click');
             const handle = (event) =>
