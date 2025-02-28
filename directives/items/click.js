@@ -14,7 +14,7 @@ directives.OnReady(() =>
 
                     if(typeof response === 'function')
                     {
-                        response(event);
+                        response(element, event);
                     }
                 }
                 catch(error)

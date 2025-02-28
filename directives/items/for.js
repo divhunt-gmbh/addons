@@ -46,7 +46,7 @@ directives.OnReady(() =>
             delete data[expVar];
 
             node.remove();
-            status.break = true;
+            status.children = false;
         }
     });
 });
