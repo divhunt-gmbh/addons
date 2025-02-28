@@ -39,7 +39,7 @@ directives.OnReady(() =>
             items.forEach((item, index) =>
             {
                 data[expVar] = {v: item, i: index};
-                const compiled = addon.RenderCompile(template, data);
+                const compiled = addon.RenderCompile(template, data, false);
                 node.before(compiled.element);
             });
 
