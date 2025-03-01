@@ -3,13 +3,14 @@ directives.OnReady(() =>
     directives.ItemAdd({
         id: 'dh-show',
         attribute: 'dh-show',
-        code: function(directive, addon, element, node, data, status)
+        order: 400,
+        code: function(directive, addon, element, node, data, status, bindings)
         {
             try
             {
-                const fn = new Function('data', 'with(data) { return ' + node.getAttribute('dh-show') + '; }');
+                const results = divhunt.Function(node.getAttribute('dh-show'), data);
 
-                if (!fn(data))
+                if(results)
                 {
                     node.style.display = 'none';
                 }

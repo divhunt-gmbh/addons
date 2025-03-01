@@ -1,4 +1,4 @@
-var elements = divhunt.Register('elements', (addon) =>
+const elements = divhunt.Register('elements', (addon) =>
 {
     addon.SetReload(false);
     addon.Ready(true);

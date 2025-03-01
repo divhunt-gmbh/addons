@@ -3,6 +3,7 @@ directives.OnReady(() =>
     directives.ItemAdd({
         id: 'dh-keyup',
         attribute: 'dh-keyup',
+        order: 500,
         code: function(directive, addon, element, node, data, status)
         {
             const attribute = node.getAttribute('dh-keyup');

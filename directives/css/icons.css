@@ -1,0 +1,11 @@
+.dh-icon
+{
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    background-color: var(--stroke-primary);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}

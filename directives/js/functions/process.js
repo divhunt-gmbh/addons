@@ -1,6 +1,11 @@
-directives.FunctionCreate('process', function(directives, trigger, addon, element, node, data, status)
+directives.FunctionCreate('process', function(directives, trigger, addon, element, node, data, status, bindings)
 {
-    const items = Object.values(directives.ItemsGet());
+    let items = directives.GetTemp('sorted');
+
+    if(!items)
+    {
+        items = directives.SetTemp('sorted', Object.values(directives.ItemsGet()).sort((a, b) => (a.Get('order')) - (b.Get('order'))));
+    }
 
     for (let i = 0; i < items.length; i++)
     {
@@ -28,11 +33,11 @@ directives.FunctionCreate('process', function(directives, trigger, addon, elemen
 
         try
         {
-            directive.Get('code')(directive, addon, element, node, data, status);
+            directive.Get('code')(directive, addon, element, node, data, status, bindings);
         }
         catch (error)
         {
-            console.warn('Error processing directive:', error);
+            errors.Fire(error.message, 'warn');
         }
     }
 });
