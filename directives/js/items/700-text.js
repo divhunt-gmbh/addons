@@ -13,51 +13,37 @@ directives.OnReady(() =>
                 return;
             }
 
-            this.replace = (node, newNode) =>
+            node.textContent.replace(this.regex, (match, expression) =>
             {
-                node.textContent = newNode.textContent.replace(this.regex, (match, expression) =>
+                let result;
+
+                try
                 {
-                    let result;
-
-                    try
-                    {
-                        result = divhunt.Function(expression, data);
-                    }
-                    catch(error)
-                    {
-                        result = '{{' + error.message + '}}';
-                    }
-
-                    if(['boolean', 'number', 'string'].includes(typeof result))
-                    {
-                        return result;
-                    }
-
-                    return JSON.stringify(result);
-
-                });
-            };
-
-            this.handleReactive = (key, value, compiled, newCompiled) =>
-            {
-                if(!divhunt.StringMatch(newCompiled.nodes[identifier]?.textContent, key))
+                    result = divhunt.Function(expression, data);
+                }
+                catch(error)
                 {
-                    return;
+                    result = '{{' + error.message + '}}';
                 }
 
-                this.replace(node, newCompiled.nodes[identifier]);
-            };
-
-            this.handleCompile = (compile) =>
-            {
-                if(!compile.clone)
+                if(!['boolean', 'number', 'string'].includes(typeof result))
                 {
-                    this.replace(node, compile.nodes[identifier]);
+                    result = '{{' + typeof result + '}}';
                 }
-            };
 
-            data.__onReactive(this.handleReactive);
-            data.__onCompile(this.handleCompile);
+                node.textContent = result;
+            });
+
+            data.__onCompile((compile, node) =>
+            {
+                if (compile.clone)
+                {
+                    if(node.textContent !== compile.nodes[identifier].textContent)
+                    {
+                        node.textContent = compile.nodes[identifier].textContent;
+                    }
+                }
+            }, 'after', node);
         }
     });
 });
