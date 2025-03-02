@@ -3,29 +3,30 @@ directives.OnReady(() =>
     directives.ItemAdd({
         id: 'dh-keydown',
         attribute: 'dh-keydown',
-        tags: ['input', 'textarea'],
-        code: function(directive, addon, element, node, data, status)
+        order: 400,
+        trigger: 'normal',
+        code: function(directive, addon, compile, node, identifier, data, status)
         {
             const attribute = node.getAttribute('dh-keydown');
-            const handle = (event) =>
-            {
-                try
-                {
-                    const response = new Function('data', 'with(data) { return ' + attribute + '; }')(data);
 
-                    if(typeof response === 'function')
-                    {
-                        response(event);
-                    }
-                }
-                catch(error)
+            node.removeAttribute('dh-keydown');
+
+            const keydownHandler = (event) =>
+            {
+                const results = divhunt.Function(attribute, data);
+
+                if(typeof results === 'function')
                 {
-                    throw('Invalid dh-keydown expression: ' + attribute);
+                    results(event, compile);
                 }
             };
 
-            node.addEventListener('keydown', handle);
-            node.removeAttribute('dh-keydown');
+            node.addEventListener('keydown', keydownHandler);
+
+            data.__onUnmount(() =>
+            {
+                node.removeEventListener('keydown', keydownHandler);
+            })
         }
     });
 });

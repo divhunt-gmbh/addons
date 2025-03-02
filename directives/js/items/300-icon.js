@@ -1,9 +1,9 @@
 directives.OnReady(() =>
 {
     directives.ItemAdd({
-        id: 'dh-icon',
+        id: 'phosphor-icon',
         types: [Node.ELEMENT_NODE],
-        tags: ['dh-icon'],
+        tags: ['phosphor-icon'],
         attribute: 'name',
         order: 300,
         code: function(directive, addon, element, node, data, status)

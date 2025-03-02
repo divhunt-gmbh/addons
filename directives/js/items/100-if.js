@@ -1,33 +1,89 @@
 directives.OnReady(() =>
 {
     directives.ItemAdd({
-        attribute: 'dh-if', code: function (directive, addon, element, node, data, status, bindings)
+        id: 'dh-if',
+        attribute: 'dh-if',
+        order: 100,
+        trigger: 'before',
+        code: function(directive, addon, compile, node, identifier, data, status)
         {
-            const attribute = node.getAttribute('dh-if');
+            return;
 
-            // bindings?._register(attribute, node, (identifier, compiled, newCompiled) =>
-            // {
-            //     compiled.nodes[identifier].replaceWith(newCompiled.nodes[identifier]);
-            //     compiled.nodes[identifier] = newCompiled.nodes[identifier];
-            // });
+            this.attribute = node.getAttribute('dh-if');
+            this.comment = data.__get(identifier + '_comment');
 
-            try
+            if(!this.attribute)
             {
-                const results = divhunt.Function(attribute, data);
+                return;
+            }
+            node.removeAttribute('dh-if');
 
-                if (!results)
+            if(!divhunt.Function(this.attribute, data))
+            {
+                status.children = false;
+            }
+
+            this.createComment = () =>
+            {
+                if(!this.comment)
                 {
-                    node.remove();
+                    this.comment = document.createComment(identifier + ' dh-if');
+                    data.__set(identifier + '_comment', this.comment);
+
+                    node.after(this.comment);
+                }
+            }
+
+            this.removeComment = () =>
+            {
+                if(this.comment)
+                {
+                    this.comment.remove();
+                    this.comment = null;
+                }
+            }
+
+            this.handleReactive = (key, value, compiled, newCompiled) =>
+            {
+                if(!this.attribute.includes(key))
+                {
+                    return;
                 }
 
-                node.removeAttribute('dh-if');
-            }
-            catch (error)
+                const visible = divhunt.Function(this.attribute, data);
+
+                if(!visible)
+                {
+                    this.createComment();
+                    node.remove();
+
+                    return;
+                }
+
+                if(this.comment)
+                {
+                    this.comment.before(newCompiled.nodes[identifier]);
+
+                    node = newCompiled.nodes[identifier];
+                    compiled.nodes[identifier] = node;
+
+                    this.removeComment();
+                }
+            };
+
+            this.handleOnMount = () =>
             {
-                errors.Fire('Invalid dh-if expression', 'warn', {
-                    expression: node.getAttribute('dh-if'),
-                });
-            }
-        }, id: 'dh-if', order: 100
+                const visible = divhunt.Function(this.attribute, data);
+
+                if(!visible)
+                {
+                    this.createComment();
+                    node.remove();
+                }
+            };
+
+            data.__onReactive(this.handleReactive);
+            data.__onMount(this.handleOnMount);
+        }
     });
 });

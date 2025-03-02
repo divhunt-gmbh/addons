@@ -1,40 +1,32 @@
-directives.OnReady(() => {
+directives.OnReady(() =>
+{
     directives.ItemAdd({
         id: 'dh-change',
         attribute: 'dh-change',
-        // tags: ['input', 'textarea'],
         order: 500,
-        code: function(directive, addon, element, node, data, status, bindings)
+        tags: ['input', 'textarea'],
+        code: function(directive, addon, compile, node, identifier, data, status)
         {
             const attribute = node.getAttribute('dh-change');
 
-            // bindings?._register(attribute, node, (currentNode, newNode) =>
-            // {
-            //     currentNode.replaceWith(newNode);
-            // });
+            node.removeAttribute('dh-change');
 
-            const handle = (event) =>
+            const changeHandler = (event) =>
             {
-                try
-                {
-                    const response = divhunt.Function(attribute, data);
+                const results = divhunt.Function(attribute, data);
 
-                    if (typeof response === 'function')
-                    {
-                        response(event);
-                    }
-                }
-                catch (error)
+                if(typeof results === 'function')
                 {
-                    console.log(error);
-                    errors.Fire('Invalid dh-change expression', 'warn', {
-                        expression: attribute,
-                    });
+                    results(event, compile);
                 }
             };
 
-            node.addEventListener('change', handle);
-            node.removeAttribute('dh-change');
+            node.addEventListener('change', changeHandler);
+
+            data.__onUnmount(() =>
+            {
+                node.removeEventListener('change', changeHandler);
+            })
         }
     });
 });

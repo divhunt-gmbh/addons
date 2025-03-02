@@ -1,4 +1,4 @@
-directives.FunctionCreate('process', function(directives, trigger, addon, element, node, data, status, bindings)
+directives.FunctionCreate('process', function(directives, trigger, addon, compile, node, identifier, data, status)
 {
     let items = directives.GetTemp('sorted');
 
@@ -31,9 +31,11 @@ directives.FunctionCreate('process', function(directives, trigger, addon, elemen
             continue;
         }
 
+        node = compile.nodes[identifier];
+
         try
         {
-            directive.Get('code')(directive, addon, element, node, data, status, bindings);
+            directive.Get('code').call({}, directive, addon, compile, node, identifier, data, status);
         }
         catch (error)
         {

@@ -4,28 +4,28 @@ directives.OnReady(() =>
         id: 'dh-click',
         attribute: 'dh-click',
         order: 500,
-        code: function(directive, addon, element, node, data, status)
+        code: function(directive, addon, compile, node, identifier, data, status)
         {
             const attribute = node.getAttribute('dh-click');
-            const handle = (event) =>
-            {
-                try
-                {
-                    const response = new Function('data', 'with(data) { return ' + attribute + '; }')(data);
 
-                    if(typeof response === 'function')
-                    {
-                        response(element, event);
-                    }
-                }
-                catch(error)
+            node.removeAttribute('dh-click');
+
+            const clickHandler = (event) =>
+            {
+                const results = divhunt.Function(attribute, data);
+
+                if(typeof results === 'function')
                 {
-                    throw('Invalid dh-click expression: ' + attribute);
+                    results(event, compile);
                 }
             };
 
-            node.addEventListener('click', handle)
-            node.removeAttribute('dh-click');
+            node.addEventListener('click', clickHandler);
+
+            data.__onUnmount(() =>
+            {
+                node.removeEventListener('click', clickHandler);
+            })
         }
     });
 });

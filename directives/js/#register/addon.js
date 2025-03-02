@@ -4,24 +4,31 @@ const directives = divhunt.Register('directives', (addon) =>
     addon.FieldAdd('types');
     addon.FieldAdd('tags');
     addon.FieldAdd('code');
-    addon.FieldAdd('trigger', null, () => 'normal');
+    addon.FieldAdd('trigger', null, () => 'after');
     addon.FieldAdd('order', null, () => 0);
 
     addon.SetReload(false);
     addon.Ready(true);
 
-    divhunt.CallbacksRegister('render_node_process', (addon, element, node, data, status, bindings) =>
+    divhunt.CallbacksRegister('render_compile_node_before', (...data) =>
     {
-        directives.Fn('process', 'normal', addon, element, node, data, status, bindings);
+        directives.Fn('process', 'before', ...data);
     })
 
-    divhunt.CallbacksRegister('render_pre_node_process', (addon, element, node, data, status, bindings) =>
+    divhunt.CallbacksRegister('render_compile_node_after', (...data) =>
     {
-        directives.Fn('process', 'pre', addon, element, node, data, status, bindings);
+        directives.Fn('process', 'after', ...data);
     })
 
-    divhunt.CallbacksRegister('render_post_node_process', (addon, element, node, data, status, bindings) =>
+    /* Children */
+
+    divhunt.CallbacksRegister('render_compile_node_children_before', (...data) =>
     {
-        directives.Fn('process', 'post', addon, element, node, data, status, bindings);
+        directives.Fn('process', 'children_before', ...data);
+    })
+
+    divhunt.CallbacksRegister('render_compile_node_children_after', (...data) =>
+    {
+        directives.Fn('process', 'children_after', ...data);
     })
 });

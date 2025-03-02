@@ -3,39 +3,61 @@ directives.OnReady(() =>
     directives.ItemAdd({
         id: 'dh-text',
         types: [Node.TEXT_NODE],
-        trigger: 'post',
         order: 700,
-        code: function(directive, addon, element, node, data, status, bindings)
+        code: function(directive, addon, compile, node, identifier, data, status)
         {
-            const regex = /\{\{\s*([^}]+)\s*\}\}/g;
-            let matches = '';
+            this.regex = /\{\{\s*([^}]+)\s*\}\}/g;
 
-            node.textContent = node.textContent.replace(regex, (match, expression) =>
+            if(!node.textContent.includes('{{'))
             {
-                matches += match;
+                return;
+            }
 
-                try
+            this.replace = (node, newNode) =>
+            {
+                node.textContent = newNode.textContent.replace(this.regex, (match, expression) =>
                 {
-                    const result = new Function('data', 'with(data) { return ' + expression + '; }')(data);
+                    let result;
 
-                    if(typeof result === 'string')
+                    try
                     {
-                        return result.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+                        result = divhunt.Function(expression, data);
+                    }
+                    catch(error)
+                    {
+                        result = '{{' + error.message + '}}';
                     }
 
-                    return result;
-                }
-                catch (err)
-                {
-                    throw  'Invalid text expression: ' + expression;
-                }
-            });
+                    if(['boolean', 'number', 'string'].includes(typeof result))
+                    {
+                        return result;
+                    }
 
-            bindings?._register(matches, node, (identifier, compiled, newCompiled) =>
+                    return JSON.stringify(result);
+
+                });
+            };
+
+            this.handleReactive = (key, value, compiled, newCompiled) =>
             {
-                compiled.nodes[identifier].replaceWith(newCompiled.nodes[identifier]);
-                compiled.nodes[identifier] = newCompiled.nodes[identifier];
-            });
+                if(!divhunt.StringMatch(newCompiled.nodes[identifier]?.textContent, key))
+                {
+                    return;
+                }
+
+                this.replace(node, newCompiled.nodes[identifier]);
+            };
+
+            this.handleCompile = (compile) =>
+            {
+                if(!compile.clone)
+                {
+                    this.replace(node, compile.nodes[identifier]);
+                }
+            };
+
+            data.__onReactive(this.handleReactive);
+            data.__onCompile(this.handleCompile);
         }
     });
 });

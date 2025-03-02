@@ -3,38 +3,30 @@ directives.OnReady(() =>
     directives.ItemAdd({
         id: 'dh-input',
         attribute: 'dh-input',
-        // tags: ['input', 'textarea'],
         order: 500,
-        code: function(directive, addon, element, node, data, status, bindings)
+        tags: ['input', 'textarea'],
+        code: function(directive, addon, compile, node, identifier, data, status)
         {
             const attribute = node.getAttribute('dh-input');
 
-            bindings._register(attribute, node, (currentNode, newNode) =>
-            {
-                currentNode.replaceWith(newNode);
-            });
+            node.removeAttribute('dh-input');
 
-            const handle = (event) =>
+            const inputHandler = (event) =>
             {
-                try
-                {
-                    const response = divhunt.Function(attribute, data);
+                const results = divhunt.Function(attribute, data);
 
-                    if (typeof response === 'function')
-                    {
-                        response(event);
-                    }
-                }
-                catch (error)
+                if(typeof results === 'function')
                 {
-                    errors.Fire('Invalid dh-input expression', 'warn', {
-                        expression: attribute,
-                    });
+                    results(event, compile);
                 }
             };
 
-            node.addEventListener('input', handle);
-            node.removeAttribute('dh-input');
+            node.addEventListener('input', inputHandler);
+
+            data.__onUnmount(() =>
+            {
+                node.removeEventListener('input', inputHandler);
+            })
         }
     });
 });
