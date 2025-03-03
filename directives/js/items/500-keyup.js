@@ -4,7 +4,6 @@ directives.OnReady(() =>
         id: 'dh-keyup',
         attribute: 'dh-keyup',
         order: 500,
-        trigger: 'normal',
         tags: ['input', 'textarea'],
         code: function(directive, addon, compile, node, identifier, data, status)
         {

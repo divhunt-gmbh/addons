@@ -6,6 +6,8 @@ directives.OnReady(() =>
         order: 1000,
         code: function(directive, addon, compile, node, identifier, data, status)
         {
+            return;
+
             const attribute = node.getAttribute('dh-id');
 
             data.__onCompile(() =>

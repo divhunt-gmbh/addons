@@ -21,11 +21,6 @@ directives.OnReady(() =>
             };
 
             node.addEventListener('click', clickHandler);
-
-            data.__onUnmount(() =>
-            {
-                node.removeEventListener('click', clickHandler);
-            })
         }
     });
 });

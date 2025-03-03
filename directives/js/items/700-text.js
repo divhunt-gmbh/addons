@@ -8,12 +8,12 @@ directives.OnReady(() =>
         {
             this.regex = /\{\{\s*([^}]+)\s*\}\}/g;
 
-            if(!node.textContent.includes('{{'))
+            if (!this.regex.test(node.textContent))
             {
                 return;
             }
 
-            node.textContent.replace(this.regex, (match, expression) =>
+            node.textContent = node.textContent.replace(this.regex, (match, expression) =>
             {
                 let result;
 
@@ -31,19 +31,8 @@ directives.OnReady(() =>
                     result = '{{' + typeof result + '}}';
                 }
 
-                node.textContent = result;
+                return result;
             });
-
-            data.__onCompile((compile, node) =>
-            {
-                if (compile.clone)
-                {
-                    if(node.textContent !== compile.nodes[identifier].textContent)
-                    {
-                        node.textContent = compile.nodes[identifier].textContent;
-                    }
-                }
-            }, 'after', node);
         }
     });
 });

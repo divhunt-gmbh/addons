@@ -21,12 +21,15 @@ directives.OnReady(() =>
                 }
             };
 
-            node.addEventListener('input', inputHandler);
+            if(!compile.clone)
+            {
+                node.addEventListener('input', inputHandler);
+            }
 
-            data.__onUnmount(() =>
+            data.__onUnmount((node) =>
             {
                 node.removeEventListener('input', inputHandler);
-            })
+            }, node)
         }
     });
 });
