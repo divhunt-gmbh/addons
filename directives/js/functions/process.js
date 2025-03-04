@@ -1,6 +1,6 @@
-directives.FunctionCreate('process', function(directives, trigger, addon, compile, node, identifier, data, status)
+directives.FunctionCreate('process', function(trigger, context, compile, node, identifier)
 {
-    let items = directives.GetTemp('sorted');
+    let items = this.addon.GetTemp('sorted');
 
     if(!items)
     {
@@ -10,6 +10,11 @@ directives.FunctionCreate('process', function(directives, trigger, addon, compil
     for (let i = 0; i < items.length; i++)
     {
         const directive = items[i];
+
+        if(directive.Get('id') !== 'dh-text')
+        {
+            continue;
+        }
 
         if(directive.Get('trigger') !== trigger)
         {
@@ -31,11 +36,9 @@ directives.FunctionCreate('process', function(directives, trigger, addon, compil
             continue;
         }
 
-        node = compile.nodes[identifier];
-
         try
         {
-            directive.Get('code').call({}, directive, addon, compile, node, identifier, data, status);
+            directive.Get('code').call(Object.assign({item: directive}, context), compile, node, identifier);
         }
         catch (error)
         {

@@ -9,7 +9,6 @@ directives.OnReady(() =>
             const attribute = node.getAttribute('dh-mouse-leave');
 
             node.removeAttribute('dh-mouse-leave');
-
             const mouseLeaveHandler = (event) =>
             {
                 const results = divhunt.Function(attribute, data);
