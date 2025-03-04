@@ -3,7 +3,9 @@ directives.OnReady(() => {
         id: 'dh-in-view',
         attribute: 'dh-in-view',
         order: 500,
-        code: function(directive, addon, compile, node, identifier, data, status) {
+        code: function(directive, addon, compile, node, identifier, data, status)
+        {
+            return;
 
             const attribute = node.getAttribute('dh-in-view');
             const repeatTrigger = node.getAttribute('dh-in-view-repeat') === 'true';

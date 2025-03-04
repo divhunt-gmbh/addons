@@ -4,7 +4,7 @@ directives.OnReady(() =>
         id: 'dh-text',
         types: [Node.TEXT_NODE],
         order: 700,
-        code: function(compile, node, identifier)
+        code: function(context, compile, node, identifier)
         {
             this.regex = /\{\{\s*([^}]+)\s*\}\}/g;
 
@@ -19,7 +19,7 @@ directives.OnReady(() =>
 
                 try
                 {
-                    result = divhunt.Function(expression, this);
+                    result = divhunt.Function(expression, context);
                 }
                 catch(error)
                 {

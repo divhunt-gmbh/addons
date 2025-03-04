@@ -7,6 +7,8 @@ directives.OnReady(() =>
         tags: ['input', 'textarea'],
         code: function(directive, addon, compile, node, identifier, data, status)
         {
+            return;
+            
             const attribute = node.getAttribute('dh-change');
 
             node.removeAttribute('dh-change');

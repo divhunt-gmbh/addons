@@ -6,6 +6,8 @@ directives.OnReady(() =>
         order: 100,
         code: function(directive, addon, compile, node, identifier, data, status)
         {
+            return;
+            
             this.attribute = node.getAttribute('dh-if');
 
             if(!divhunt.Function(this.attribute, data))

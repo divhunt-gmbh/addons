@@ -4,6 +4,8 @@ directives.ItemAdd({
     order: 200,
     code: function(directive, addon, compile, node, identifier, data, status)
     {
+        return;
+        
         const expression = node.getAttribute('dh-for');
         const match = expression.match(/(\w+)\s+in\s+(.+)/);
 

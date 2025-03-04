@@ -6,6 +6,8 @@ directives.OnReady(() =>
         order: 400,
         code: function(directive, addon, compile, node, identifier, data, status)
         {
+            return;
+
             const attribute = node.getAttribute('dh-keydown');
 
             node.removeAttribute('dh-keydown');

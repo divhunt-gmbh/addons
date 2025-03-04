@@ -1,16 +1,12 @@
 directives.OnReady(() => {
-    // Load html-to-image
-    (function() {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js';
-        document.head.appendChild(script);
-    })();
-
     directives.ItemAdd({
         id: 'dh-snapshot',
         attribute: 'dh-snapshot',
         order: 600,
-        code: function(directive, addon, compile, node, identifier, data, status) {
+        code: function(directive, addon, compile, node, identifier, data, status)
+        {
+            return;
+
             node.removeAttribute('dh-snapshot');
 
             data.__onMount(() => {

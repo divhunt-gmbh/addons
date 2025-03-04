@@ -6,6 +6,8 @@ directives.OnReady(() =>
         order: 500,
         code: function(directive, addon, compile, node, identifier, data, status)
         {
+            return;
+
             const attribute = node.getAttribute('dh-click');
 
             node.removeAttribute('dh-click');

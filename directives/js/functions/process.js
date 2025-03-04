@@ -11,11 +11,6 @@ directives.FunctionCreate('process', function(trigger, context, compile, node, i
     {
         const directive = items[i];
 
-        if(directive.Get('id') !== 'dh-text')
-        {
-            continue;
-        }
-
         if(directive.Get('trigger') !== trigger)
         {
             continue;
@@ -38,7 +33,7 @@ directives.FunctionCreate('process', function(trigger, context, compile, node, i
 
         try
         {
-            directive.Get('code').call(Object.assign({item: directive}, context), compile, node, identifier);
+            directive.Get('code').call({}, context, compile, node, identifier);
         }
         catch (error)
         {

@@ -8,6 +8,8 @@ directives.OnReady(() =>
         order: 300,
         code: function(directive, addon, element, node, data, status)
         {
+            return;
+            
             const name = node.getAttribute('name');
             const type = node.getAttribute('type');
             const size = node.getAttribute('size');
