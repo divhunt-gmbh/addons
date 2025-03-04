@@ -5,15 +5,13 @@ directives.OnReady(() =>
         attribute: 'dh-keyup',
         order: 500,
         tags: ['input', 'textarea'],
-        code: function(directive, addon, compile, node, identifier, data, status)
+        code: function(context, compile, node, identifier)
         {
-            return;
-
             const attribute = node.getAttribute('dh-keyup');
 
             const keyupHandler = (event) =>
             {
-                const results = divhunt.Function(attribute, data);
+                const results = divhunt.Function(attribute, context);
 
                 if(typeof results === 'function')
                 {
@@ -23,7 +21,7 @@ directives.OnReady(() =>
 
             node.addEventListener('keyup', keyupHandler);
 
-            data.__onUnmount(() =>
+            context.OnUnmount(() =>
             {
                 node.removeEventListener('keyup', keyupHandler);
             })

@@ -4,13 +4,11 @@ directives.OnReady(() =>
         id: 'dh-if',
         attribute: 'dh-if',
         order: 100,
-        code: function(directive, addon, compile, node, identifier, data, status)
+        code: function(context, compile, node, identifier)
         {
-            return;
-            
             this.attribute = node.getAttribute('dh-if');
 
-            if(!divhunt.Function(this.attribute, data))
+            if(!divhunt.Function(this.attribute, context))
             {
                 compile.walk = false;
                 node.remove();

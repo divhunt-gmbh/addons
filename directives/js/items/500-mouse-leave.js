@@ -4,16 +4,14 @@ directives.OnReady(() =>
         id: 'dh-mouse-leave',
         attribute: 'dh-mouse-leave',
         order: 500,
-        code: function(directive, addon, compile, node, identifier, data, status)
+        code: function(context, compile, node, identifier)
         {
-            return;
-
             const attribute = node.getAttribute('dh-mouse-leave');
 
             node.removeAttribute('dh-mouse-leave');
             const mouseLeaveHandler = (event) =>
             {
-                const results = divhunt.Function(attribute, data);
+                const results = divhunt.Function(attribute, context);
 
                 if(typeof results === 'function')
                 {

@@ -4,15 +4,13 @@ directives.OnReady(() =>
         id: 'dh-id',
         attribute: 'dh-id',
         order: 1000,
-        code: function(directive, addon, compile, node, identifier, data, status)
+        code: function(context, compile, node, identifier)
         {
-            return;
-
             const attribute = node.getAttribute('dh-id');
 
-            data.__onCompile(() =>
+            context.OnCompile(() =>
             {
-                data.__set(attribute, compile.nodes[identifier]);
+                context.Set(attribute, compile.nodes[identifier]);
             });
         }
     });

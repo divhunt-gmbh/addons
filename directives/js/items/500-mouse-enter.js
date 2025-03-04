@@ -4,7 +4,7 @@ directives.OnReady(() =>
         id: 'dh-mouse-enter',
         attribute: 'dh-mouse-enter',
         order: 500,
-        code: function(directive, addon, compile, node, identifier, data, status)
+        code: function(context, compile, node, identifier)
         {
             const attribute = node.getAttribute('dh-mouse-enter');
 
@@ -12,7 +12,7 @@ directives.OnReady(() =>
 
             const mouseEnterHandler = (event) =>
             {
-                const results = divhunt.Function(attribute, data);
+                const results = divhunt.Function(attribute, context);
 
                 if(typeof results === 'function')
                 {

@@ -5,17 +5,15 @@ directives.OnReady(() =>
         attribute: 'dh-input',
         order: 500,
         tags: ['input', 'textarea'],
-        code: function(directive, addon, compile, node, identifier, data, status)
+        code: function(context, compile, node, identifier)
         {
-            return;
-
             const attribute = node.getAttribute('dh-input');
 
             node.removeAttribute('dh-input');
 
             const inputHandler = (event) =>
             {
-                const results = divhunt.Function(attribute, data);
+                const results = divhunt.Function(attribute, context);
 
                 if(typeof results === 'function')
                 {
@@ -28,7 +26,7 @@ directives.OnReady(() =>
                 node.addEventListener('input', inputHandler);
             }
 
-            data.__onUnmount((node) =>
+            context.OnUnmount((node) =>
             {
                 node.removeEventListener('input', inputHandler);
             }, node)

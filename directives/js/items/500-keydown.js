@@ -4,17 +4,14 @@ directives.OnReady(() =>
         id: 'dh-keydown',
         attribute: 'dh-keydown',
         order: 400,
-        code: function(directive, addon, compile, node, identifier, data, status)
+        code: function(context, compile, node, identifier)
         {
-            return;
-
             const attribute = node.getAttribute('dh-keydown');
-
             node.removeAttribute('dh-keydown');
 
             const keydownHandler = (event) =>
             {
-                const results = divhunt.Function(attribute, data);
+                const results = divhunt.Function(attribute, context);
 
                 if(typeof results === 'function')
                 {
@@ -24,7 +21,7 @@ directives.OnReady(() =>
 
             node.addEventListener('keydown', keydownHandler);
 
-            data.__onUnmount(() =>
+            context.OnUnmount(() =>
             {
                 node.removeEventListener('keydown', keydownHandler);
             })

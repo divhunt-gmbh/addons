@@ -4,17 +4,15 @@ directives.OnReady(() =>
         id: 'dh-click',
         attribute: 'dh-click',
         order: 500,
-        code: function(directive, addon, compile, node, identifier, data, status)
+        code: function(context, compile, node, identifier)
         {
-            return;
-
             const attribute = node.getAttribute('dh-click');
 
             node.removeAttribute('dh-click');
 
             const clickHandler = (event) =>
             {
-                const results = divhunt.Function(attribute, data);
+                const results = divhunt.Function(attribute, context);
 
                 if(typeof results === 'function')
                 {

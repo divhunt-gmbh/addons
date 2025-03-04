@@ -3,15 +3,11 @@ directives.OnReady(() => {
         id: 'dh-in-view',
         attribute: 'dh-in-view',
         order: 500,
-        code: function(directive, addon, compile, node, identifier, data, status)
+        code: function(context, compile, node, identifier)
         {
-            return;
-
             const attribute = node.getAttribute('dh-in-view');
             const repeatTrigger = node.getAttribute('dh-in-view-repeat') === 'true';
             const attrTreshold = node.getAttribute('dh-in-view-threshold');
-
-            console.log(repeatTrigger);
 
             let threshold = attrTreshold;
 
@@ -28,7 +24,7 @@ directives.OnReady(() => {
                 (entries, observer) => {
                     entries.forEach((entry) => {
                         if (entry.isIntersecting) {
-                            const results = divhunt.Function(attribute, data);
+                            const results = divhunt.Function(attribute, context);
 
                             if (typeof results === 'function') {
                                 results(entry, compile);
