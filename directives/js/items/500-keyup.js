@@ -8,23 +8,17 @@ directives.OnReady(() =>
         code: function(context, compile, node, identifier)
         {
             const attribute = node.getAttribute('dh-keyup');
-
             const keyupHandler = (event) =>
             {
                 const results = divhunt.Function(attribute, context);
 
                 if(typeof results === 'function')
                 {
-                    results(event, compile);
+                    results(event);
                 }
             };
 
             node.addEventListener('keyup', keyupHandler);
-
-            context.OnUnmount(() =>
-            {
-                node.removeEventListener('keyup', keyupHandler);
-            })
         }
     });
 });

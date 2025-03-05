@@ -6,29 +6,58 @@ directives.OnReady(() =>
         order: 700,
         code: function(context, compile, node, identifier)
         {
-            this.regex = /\{\{\s*([^}]+)\s*\}\}/g;
+            const regex = /\{\{\s*([^}]+)\s*\}\}/g;
 
-            if (!this.regex.test(node.textContent))
+            if (!node.textContent.includes('{{'))
             {
                 return;
             }
 
-            node.textContent = node.textContent.replace(this.regex, (match, expression) =>
+            if (!regex.test(node.textContent))
+            {
+                return;
+            }
+
+            node.textContent = node.textContent.replace(regex, (match, expression) =>
             {
                 let result;
 
                 try
                 {
                     result = divhunt.Function(expression, context);
+
+                    if (result === null)
+                    {
+                        result = '';
+                    }
+                    else if (result === undefined)
+                    {
+                        result = '';
+                    }
+                    else if (!['boolean', 'number', 'string'].includes(typeof result))
+                    {
+                        try
+                        {
+                            const stringifier = result.toString();
+
+                            if (stringifier !== '[object Object]')
+                            {
+                                result = stringifier;
+                            }
+                            else
+                            {
+                                result = '{{' + typeof result + '}}';
+                            }
+                        }
+                        catch (e)
+                        {
+                            result = '{{' + typeof result + '}}';
+                        }
+                    }
                 }
                 catch(error)
                 {
-                    result = '{{' + error.message + '}}';
-                }
-
-                if(!['boolean', 'number', 'string'].includes(typeof result))
-                {
-                    result = '{{' + typeof result + '}}';
+                    result = '{{Error: ' + error.message + '}}';
                 }
 
                 return result;

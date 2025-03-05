@@ -5,6 +5,7 @@ directives.OnReady(() => {
         order: 600,
         code: function(directive, addon, compile, node, identifier, data, status)
         {
+            // @TODO
             return;
 
             node.removeAttribute('dh-snapshot');

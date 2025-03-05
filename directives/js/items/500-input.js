@@ -4,34 +4,23 @@ directives.OnReady(() =>
         id: 'dh-input',
         attribute: 'dh-input',
         order: 500,
-        tags: ['input', 'textarea'],
-        code: function(directive, addon, compile, node, identifier, data, status)
+        tags: ['input', 'textarea', 'select'],
+        code: function(context, compile, node, identifier)
         {
-            return;
-
             const attribute = node.getAttribute('dh-input');
-
             node.removeAttribute('dh-input');
 
             const inputHandler = (event) =>
             {
-                const results = divhunt.Function(attribute, data);
+                const results = divhunt.Function(attribute, context);
 
                 if(typeof results === 'function')
                 {
-                    results(event, compile);
+                    results(event);
                 }
             };
 
-            if(!compile.clone)
-            {
-                node.addEventListener('input', inputHandler);
-            }
-
-            data.__onUnmount((node) =>
-            {
-                node.removeEventListener('input', inputHandler);
-            }, node)
+            node.addEventListener('input', inputHandler);
         }
     });
 });

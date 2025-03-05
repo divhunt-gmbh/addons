@@ -1,49 +1,66 @@
-directives.ItemAdd({
-    id: 'dh-for',
-    attribute: 'dh-for',
-    order: 200,
-    code: function(directive, addon, compile, node, identifier, data, status)
-    {
-        return;
-        
-        const expression = node.getAttribute('dh-for');
-        const match = expression.match(/(\w+)\s+in\s+(.+)/);
-
-        if (!match)
+directives.OnReady(() => {
+    directives.ItemAdd({
+        id: 'dh-for',
+        attribute: 'dh-for',
+        order: 200,
+        code: function(context, compile, node, identifier)
         {
-            return;
-        }
+            const expression = node.getAttribute('dh-for');
+            const match = expression.match(/(\w+)(?:\s*,\s*(\w+))?\s+in\s+(.+)/);
 
-        node.removeAttribute('dh-for');
-
-        const itemName = match[1];
-        const arrayExpr = match[2];
-
-        try
-        {
-            const items = Function('data', `with(data) { return ${arrayExpr}; }`)(data);
-
-            if (!Array.isArray(items))
+            if (!match)
             {
-                throw(`dh-for expects an array, got: ${typeof items}`);
+                console.error(`Invalid dh-for syntax: ${expression}. Expected format: "item in items" or "item, index in items"`);
+                return;
             }
 
-            const content = node.outerHTML;
+            node.removeAttribute('dh-for');
 
-            items.forEach((item, index) =>
+            const itemName = match[1];
+            const indexName = match[2] || `${itemName}_index`;
+            const arrayExpr = match[3];
+
+            try
             {
-                data[itemName] = {v: item, i: index};
+                let items = divhunt.Function(arrayExpr, context);
 
-                const compile = addon.RenderCompile(content, data);
-                node.before(compile.element.firstElementChild);
-            });
+                if (!Array.isArray(items) && items && typeof items === 'object')
+                {
+                    if (items[Symbol.iterator])
+                    {
+                        items = Array.from(items);
+                    }
+                    else
+                    {
+                        items = Object.entries(items);
+                    }
+                }
+                else if (!Array.isArray(items))
+                {
+                    throw(`dh-for expects an array or iterable, got: ${typeof items}`);
+                }
 
-            node.remove();
-            compile.walk = false;
+                const html = node.outerHTML;
+
+                items.forEach((item, index) =>
+                {
+                    const data = {};
+
+                    data[itemName] = item;
+                    data[indexName] = index;
+
+                    const compile = context.Addon.RenderCompile(html, Object.assign({}, context, data));
+
+                    node.before(compile.element);
+                });
+
+                node.remove();
+                compile.children = false;
+            }
+            catch (error)
+            {
+                console.error(`Error in dh-for directive for "${expression}":`, error);
+            }
         }
-        catch (error)
-        {
-            console.error(`Error in dh-for directive:`, error);
-        }
-    }
+    });
 });

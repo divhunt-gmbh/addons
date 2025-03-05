@@ -1,24 +1,24 @@
 directives.OnReady(() =>
 {
     directives.ItemAdd({
-        id: 'dh-click',
-        attribute: 'dh-click',
+        id: 'dh-double-click',
+        attribute: 'dh-double-click',
         order: 500,
         code: function(context, compile, node, identifier)
         {
-            const attribute = node.getAttribute('dh-click');
-            node.removeAttribute('dh-click');
-            const clickHandler = (event) =>
+            const attribute = node.getAttribute('dh-double-click');
+            node.removeAttribute('dh-double-click');
+            const doubleClickHandler = (event) =>
             {
                 const results = divhunt.Function(attribute, context);
 
                 if(typeof results === 'function')
                 {
-                    results(event, compile);
+                    results(event);
                 }
             };
 
-            node.addEventListener('click', clickHandler);
+            node.addEventListener('dblclick', doubleClickHandler);
         }
     });
 });

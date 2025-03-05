@@ -6,19 +6,17 @@ directives.OnReady(() =>
         tags: ['dh-icon'],
         attribute: 'name',
         order: 300,
-        code: function(directive, addon, element, node, data, status)
+        code: function(context, compile, node, identifier)
         {
-            return;
-
             const name = node.getAttribute('name');
-            const type = node.getAttribute('type');
+            const type = node.getAttribute('type') || 'regular';
             const size = node.getAttribute('size');
             const color = node.getAttribute('color');
 
-            const iconElement = document.createElement('span');
+            const icon = document.createElement('span');
             const styles = [];
 
-            styles.push(`mask-image: url('https://testtest213.b-cdn.net/icons/${name}.svg')`);
+            styles.push(`mask-image: url('https://testtest213.b-cdn.net/icon/${type}/${name}${type === 'regular' ? '' : ('-' + type)}.svg')`);
 
             if(size)
             {
@@ -27,30 +25,30 @@ directives.OnReady(() =>
 
             if(color)
             {
-                styles.push(`background: ${color}`);
+                styles.push(`background-color: ${color}`);
             }
 
-            iconElement.className = 'dh-icon';
-            iconElement.style.cssText = styles.join('; ');
+            icon.classList.add('dh-icon');
+
+            if(node.hasAttribute('class'))
+            {
+                node.getAttribute('class').split(/\s+/).forEach(className =>
+                {
+                    if (className) icon.classList.add(className);
+                });
+            }
 
             Array.from(node.attributes).forEach(attribute =>
             {
                 if(!['name', 'type', 'size', 'color', 'class'].includes(attribute.name))
                 {
-                    iconElement.setAttribute(attribute.name, attribute.value);
+                    icon.setAttribute(attribute.name, attribute.value);
                 }
             });
 
-            if(node.hasAttribute('class'))
-            {
-                iconElement.setAttribute('class', 'dh-icon ' + node.getAttribute('class'));
-            }
-            else
-            {
-                iconElement.setAttribute('class', 'dh-icon');
-            }
+            icon.style.cssText = styles.join('; ');
 
-            node.replaceWith(iconElement);
+            node.replaceWith(icon);
         }
     });
 });

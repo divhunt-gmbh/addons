@@ -15,16 +15,11 @@ directives.OnReady(() =>
 
                 if(typeof results === 'function')
                 {
-                    results(event, compile);
+                    results(event);
                 }
             };
 
             node.addEventListener('keydown', keydownHandler);
-
-            context.OnUnmount(() =>
-            {
-                node.removeEventListener('keydown', keydownHandler);
-            })
         }
     });
 });

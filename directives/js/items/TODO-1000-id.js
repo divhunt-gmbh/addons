@@ -6,6 +6,9 @@ directives.OnReady(() =>
         order: 1000,
         code: function(context, compile, node, identifier)
         {
+            // @TODO
+            return;
+
             const attribute = node.getAttribute('dh-id');
 
             context.OnCompile(() =>

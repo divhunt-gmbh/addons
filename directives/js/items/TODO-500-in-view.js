@@ -1,10 +1,14 @@
-directives.OnReady(() => {
+directives.OnReady(() =>
+{
     directives.ItemAdd({
         id: 'dh-in-view',
         attribute: 'dh-in-view',
         order: 500,
         code: function(context, compile, node, identifier)
         {
+            // @TODO
+            return;
+
             const attribute = node.getAttribute('dh-in-view');
             const repeatTrigger = node.getAttribute('dh-in-view-repeat') === 'true';
             const attrTreshold = node.getAttribute('dh-in-view-threshold');
