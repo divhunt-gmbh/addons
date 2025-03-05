@@ -1,15 +1,15 @@
 directives.OnReady(() =>
 {
     directives.ItemAdd({
-        id: 'phosphor-icon',
+        id: 'dh-icon',
         types: [Node.ELEMENT_NODE],
-        tags: ['phosphor-icon'],
+        tags: ['dh-icon'],
         attribute: 'name',
         order: 300,
         code: function(directive, addon, element, node, data, status)
         {
             return;
-            
+
             const name = node.getAttribute('name');
             const type = node.getAttribute('type');
             const size = node.getAttribute('size');
