@@ -21,7 +21,7 @@ directives.FunctionCreate('process', function(trigger, context, compile, node, i
             continue;
         }
 
-        if (directive.Get('tags') && !directive.Get('tags').includes(node.tagName.toLowerCase()))
+        if (directive.Get('tags') && (node.nodeType !== Node.ELEMENT_NODE || !directive.Get('tags').includes(node.tagName.toLowerCase())))
         {
             continue;
         }

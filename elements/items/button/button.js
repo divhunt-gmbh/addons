@@ -5,8 +5,8 @@ elements.OnReady(() =>
         render: function ()
         {
             return `
-                <dh-icon dh-if="iconLeft" name="airplane"></dh-icon>
-                <button :class="class">{{name}}</button>
+                <dh-icon name="airplane"></dh-icon>
+                <button>{{name}}</button>
             `;
         }
     })
