@@ -3,7 +3,7 @@ directives.OnReady(() =>
     directives.ItemAdd({
         id: 'dh-text',
         match: {
-            type: Node.TEXT_NODE,
+            type: '3',
             text: '\\{\\{\\s*([^}]+)\\s*\\}\\}'
         },
         order: 700,

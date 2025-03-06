@@ -1,4 +1,130 @@
 .r284dbcbb
 {
     background: red;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--dh-spacing-s);
+    gap: var(--dh-spacing-m);
+    cursor: pointer;
+    border-radius: var(--dh-radius-s);
+    width: 100%;
+    height: var(--dh-height-m);
+    background: var(--dh-brand);
+    font-weight: var(--dh-text-medium);
+}
+
+.r284dbcbb:hover
+{
+    background: var(--dh-brand-hover);
+}
+
+.r284dbcbb > .dh-icon
+{
+    background: #FFFFFF;
+}
+
+.r284dbcbb > button
+{
+    background: transparent;
+    border: none;
+}
+
+/* @@@@@@@@@@@ VARIANTS @@@@@@@@@@@ */
+
+/* Background 1 */
+.r284dbcbb.bg-1 {
+    background: var(--dh-bg-1);
+}
+
+.r284dbcbb.bg-1:hover {
+    background: var(--dh-bg-1-hover);
+}
+
+/* Background 2 */
+.r284dbcbb.bg-2
+{
+    background: var(--dh-bg-2);
+}
+
+.r284dbcbb.bg-2:hover
+{
+    background: var(--dh-bg-2-hover);
+}
+
+/* Background 3 */
+.r284dbcbb.bg-3
+{
+    background: var(--dh-bg-3);
+}
+
+.r284dbcbb.bg-3:hover
+{
+    background: var(--dh-bg-3-hover);
+}
+
+/* Background 4 */
+.r284dbcbb.bg-4
+{
+    background: var(--dh-bg-4);
+}
+
+.r284dbcbb.bg-4:hover
+{
+    background: var(--dh-bg-4-hover);
+}
+
+/* Background 5 */
+.r284dbcbb.bg-5
+{
+    background: var(--dh-bg-5);
+}
+
+.r284dbcbb.bg-5:hover
+{
+    background: var(--dh-bg-5-hover);
+}
+
+/* Blue */
+.r284dbcbb.blue
+{
+    background: var(--dh-blue);
+}
+
+.r284dbcbb.blue:hover
+{
+    background: var(--dh-blue-hover);
+}
+
+/* Orange */
+.r284dbcbb.orange
+{
+    background: var(--dh-orange);
+}
+
+.r284dbcbb.orange:hover
+{
+    background: var(--dh-orange-hover);
+}
+
+/* Green */
+.r284dbcbb.green
+{
+    background: var(--dh-green);
+}
+
+.r284dbcbb.green:hover
+{
+    background: var(--dh-green-hover);
+}
+
+/* Red */
+.r284dbcbb.red
+{
+    background: var(--dh-red);
+}
+
+.r284dbcbb.red:hover
+{
+    background: var(--dh-red-hover);
 }

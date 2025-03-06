@@ -1,9 +1,9 @@
 .dh-icon
 {
-    width: 32px;
-    height: 32px;
+    width: var(--dh-height-s);
+    height: var(--dh-height-s);
     display: inline-block;
-    background-color: var(--stroke-primary);
+    background-color: var(--dh-content-1);
     -webkit-mask-size: contain;
     mask-size: contain;
     mask-repeat: no-repeat;

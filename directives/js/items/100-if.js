@@ -15,7 +15,6 @@ directives.OnReady(() =>
 
             if(!divhunt.Function(this.attribute, context))
             {
-                compile.walk = false;
                 node.remove();
             }
         }
