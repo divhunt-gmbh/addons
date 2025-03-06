@@ -33,11 +33,13 @@
 /* @@@@@@@@@@@ VARIANTS @@@@@@@@@@@ */
 
 /* Background 1 */
-.r284dbcbb.bg-1 {
+.r284dbcbb.bg-1
+{
     background: var(--dh-bg-1);
 }
 
-.r284dbcbb.bg-1:hover {
+.r284dbcbb.bg-1:hover
+{
     background: var(--dh-bg-1-hover);
 }
 
