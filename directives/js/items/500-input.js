@@ -2,9 +2,13 @@ directives.OnReady(() =>
 {
     directives.ItemAdd({
         id: 'dh-input',
-        attribute: 'dh-input',
+        match: {
+            tag: '^(input|textarea|select)$',
+            attribute: {
+                name: '^dh-input$'
+            }
+        },
         order: 500,
-        tags: ['input', 'textarea', 'select'],
         code: function(context, compile, node, identifier)
         {
             const attribute = node.getAttribute('dh-input');

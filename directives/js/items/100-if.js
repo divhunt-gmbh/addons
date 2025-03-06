@@ -2,7 +2,11 @@ directives.OnReady(() =>
 {
     directives.ItemAdd({
         id: 'dh-if',
-        attribute: 'dh-if',
+        match: {
+            attribute: {
+                name: '^dh-if$'
+            }
+        },
         order: 100,
         code: function(context, compile, node, identifier)
         {

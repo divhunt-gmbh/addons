@@ -2,23 +2,14 @@ directives.OnReady(() =>
 {
     directives.ItemAdd({
         id: 'dh-text',
-        types: [Node.TEXT_NODE],
+        match: {
+            type: Node.TEXT_NODE,
+            text: '\\{\\{\\s*([^}]+)\\s*\\}\\}'
+        },
         order: 700,
         code: function(context, compile, node, identifier)
         {
-            const regex = /\{\{\s*([^}]+)\s*\}\}/g;
-
-            if (!node.textContent.includes('{{'))
-            {
-                return;
-            }
-
-            if (!regex.test(node.textContent))
-            {
-                return;
-            }
-
-            node.textContent = node.textContent.replace(regex, (match, expression) =>
+            node.textContent = node.textContent.replace(/\{\{\s*([^}]+)\s*\}\}/g, (match, expression) =>
             {
                 let result;
 

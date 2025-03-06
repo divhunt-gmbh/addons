@@ -1,11 +1,9 @@
 const directives = divhunt.Register('directives', (addon) =>
 {
-    addon.FieldAdd('attribute');
-    addon.FieldAdd('types');
-    addon.FieldAdd('tags');
-    addon.FieldAdd('code');
+    addon.FieldAdd('match');
     addon.FieldAdd('trigger', null, () => 'before');
-    addon.FieldAdd('order', null, () => 0);
+    addon.FieldAdd('order');
+    addon.FieldAdd('code');
 
     addon.SetReload(false);
     addon.Ready(true);

@@ -2,7 +2,10 @@ directives.OnReady(() =>
 {
     directives.ItemAdd({
         id: 'dh-render',
-        tags: ['dh-render'],
+        match: {
+            type: Node.TEXT_NODE,
+            text: '\\{\\{\\s*([^}]+)\\s*\\}\\}'
+        },
         code: function(context, compile, node, identifier)
         {
             const bind = node.getAttribute('$');

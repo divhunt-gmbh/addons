@@ -2,9 +2,12 @@ directives.OnReady(() =>
 {
     directives.ItemAdd({
         id: 'dh-icon',
-        types: [Node.ELEMENT_NODE],
-        tags: ['dh-icon'],
-        attribute: 'name',
+        match: {
+            tag: '^dh-icon$',
+            attribute: {
+                name: '^name$'
+            }
+        },
         order: 300,
         code: function(context, compile, node, identifier)
         {

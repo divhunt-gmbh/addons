@@ -2,7 +2,11 @@ directives.OnReady(() =>
 {
     directives.ItemAdd({
         id: 'dh-double-click',
-        attribute: 'dh-double-click',
+        match: {
+            attribute: {
+                name: '^dh-double-click$'
+            }
+        },
         order: 500,
         code: function(context, compile, node, identifier)
         {

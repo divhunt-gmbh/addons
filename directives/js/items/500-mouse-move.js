@@ -2,7 +2,11 @@ directives.OnReady(() =>
 {
     directives.ItemAdd({
         id: 'dh-mouse-move',
-        attribute: 'dh-mouse-move',
+        match: {
+            attribute: {
+                name: '^dh-mouse-move$'
+            }
+        },
         order: 500,
         code: function(context, compile, node, identifier)
         {

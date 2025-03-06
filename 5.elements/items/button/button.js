@@ -5,16 +5,17 @@ elements.OnReady(() =>
         render: function ()
         {
             this.Define({
-                name: () => {
-                    return {
-                        id: 0
-                    }
-                },
+                label: 'Button',
+                iconLeft: ['string'],
+                iconRight: ['string'],
+                onClick: ['function']
             });
 
             return `
-                <dh-icon name="airplane"></dh-icon>
-                <button>{{name}}</button>
+                <div dh-bind="dh-click:alert():onClick">
+                    <dh-icon name="airplane"></dh-icon>
+                    <button>{{label}}</button>
+                </div>
             `;
         }
     })
