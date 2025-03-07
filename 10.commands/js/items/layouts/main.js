@@ -1,5 +1,7 @@
 layouts.OnReady(() =>
 {
+    return;
+    
     layouts.ItemAdd({
         id: 'dh-command',
         description: 'A full-screen layout designed for commanding and managing features. Dive into recommended commands, perform searches, and access new commands effortlessly.',

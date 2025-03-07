@@ -1,0 +1,16 @@
+.r7bec6251
+{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.r7bec6251 > div
+{
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+    margin: auto;
+}

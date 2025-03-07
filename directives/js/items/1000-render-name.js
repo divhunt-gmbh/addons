@@ -13,7 +13,10 @@ directives.OnReady(() =>
         {
             this.attributes = () =>
             {
-                const attributes = {};
+                const attributes = {
+                    wrapper: {},
+                    data: {}
+                };
 
                 for (let i = 0; i < node.attributes.length; i++)
                 {
@@ -21,9 +24,15 @@ directives.OnReady(() =>
 
                     if (attr.name.startsWith('#'))
                     {
-                        attributes[attr.name.substring(1)] = attr.value;
+                        attributes.wrapper[attr.name.substring(1)] = attr.value;
+                    }
+                    else
+                    {
+                        attributes.data[attr.name] = attr.value;
                     }
                 }
+
+                console.log(attributes);
 
                 return attributes;
             };
@@ -41,12 +50,17 @@ directives.OnReady(() =>
                 return {addon: first, name: second};
             }
 
+            const attribute = node.getAttribute('&');
+
+            node.removeAttribute('&');
+
             const attributes = this.attributes(node.attributes)
-            const render = this.render(node.getAttribute('&'));
+            const render = this.render(attribute);
+
 
             context.Divhunt.Find(render.addon, (addon) =>
             {
-                addon.Render(render.name, {}, attributes, (renderContext) =>
+                addon.Render(render.name, attributes.data, attributes.wrapper, (renderContext) =>
                 {
                     node.replaceWith(renderContext.Element);
                 });
