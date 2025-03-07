@@ -28,11 +28,16 @@ directives.OnReady(() =>
                     }
                     else if(attr.name.startsWith(':'))
                     {
-                        attributes.data[attr.name.substring(1)] = divhunt.Function(attr.value, context);
+                        const camelCaseName = attr.name.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
+
+
+                        attributes.data[camelCaseName.substring(1)] = divhunt.Function(attr.value, context);
                     }
                     else
                     {
-                        attributes.data[attr.name] = attr.value;
+                        const camelCaseName = attr.name.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
+
+                        attributes.data[camelCaseName] = attr.value;
                     }
                 }
 

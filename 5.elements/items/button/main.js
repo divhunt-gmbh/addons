@@ -11,8 +11,6 @@ elements.OnReady(() =>
                 onClick: ['function']
             });
 
-            console.log(this);
-
             return `
                 <dh-icon dh-if="iconLeft" :name="iconLeft"></dh-icon>
                 <button>{{label}}</button>
