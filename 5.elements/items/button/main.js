@@ -6,13 +6,15 @@ elements.OnReady(() =>
         {
             this.Define({
                 label: 'Button',
-                iconLeft: ['string', 'airplane'],
-                iconRight: ['string', 'airplane'],
+                iconLeft: ['string'],
+                iconRight: ['string'],
                 onClick: ['function']
             });
 
+            console.log(this);
+
             return `
-                <dh-icon dh-if="iconLeft" name="airplane"></dh-icon>
+                <dh-icon dh-if="iconLeft" :name="iconLeft"></dh-icon>
                 <button>{{label}}</button>
                 <dh-icon dh-if="iconRight" name="airplane"></dh-icon>
             `;
