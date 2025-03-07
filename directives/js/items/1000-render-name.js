@@ -26,13 +26,15 @@ directives.OnReady(() =>
                     {
                         attributes.wrapper[attr.name.substring(1)] = attr.value;
                     }
+                    else if(attr.name.startsWith(':'))
+                    {
+                        attributes.data[attr.name.substring(1)] = divhunt.Function(attr.value, context);
+                    }
                     else
                     {
                         attributes.data[attr.name] = attr.value;
                     }
                 }
-
-                console.log(attributes);
 
                 return attributes;
             };
